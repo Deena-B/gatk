@@ -133,7 +133,7 @@ public final class ReadThreadingAssemblerArgumentCollection implements Serializa
      */
     @Advanced
     @Argument(fullName="pruning-lod-threshold", doc = "Log-10 likelihood ratio threshold for adaptive pruning algorithm", optional = true)
-    public double pruningLog10OddsThreshold = 2.0;
+    public double pruningLog10OddsThreshold = 1.0;
 
     /**
      * The maximum number of variants in graph the adaptive pruner will allow
