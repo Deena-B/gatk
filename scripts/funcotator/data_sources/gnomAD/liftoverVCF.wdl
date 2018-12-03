@@ -3,24 +3,26 @@
 # Description of inputs:
 #
 #   Required:
-#     String gatk_docker                          -  GATK Docker image in which to run
+#     String gatk_docker                                -  GATK Docker image in which to run
 #
-#     File variant_vcf                            -  Variant Context File (VCF) containing the variants.
-#     File chain_file                             -  Chain file specifying the conversion from the variant reference to the target reference.
-#     File target_reference_sequence_fasta_file   -  Reference FASTA file for the target reference (not the reference for the given VCF file).
-#     String lifted_over_vcf_name                 -  Output name for the lifted over VCF file.
-#     String lifted_over_rejects_vcf_name         -  Output name for the lifted over rejects file.
+#     File variant_vcf                                  -  Variant Context File (VCF) containing the variants.
+#     File chain_file                                   -  Chain file specifying the conversion from the variant reference to the target reference.
+#     File target_reference_sequence_fasta_file         -  Reference FASTA file for the target reference (not the reference for the given VCF file).
+#     File target_reference_sequence_fasta_file_index   -  Index for reference FASTA file for the target reference (not the reference for the given VCF file).
+#     File target_reference_sequence_fasta_file_dict    -  Sequence dictionary for reference FASTA file for the target reference (not the reference for the given VCF file).
+#     String lifted_over_vcf_name                       -  Output name for the lifted over VCF file.
+#     String lifted_over_rejects_vcf_name               -  Output name for the lifted over rejects file.
 #
 #   Optional:
-#     Boolean warn_on_missing_contig              -  Whether to create a warning message when a contig is missing.
-#     Boolean write_original_position             -  Whether to write the original position as an annotation in the resulting lifted over VCF.
+#     Boolean warn_on_missing_contig                    -  Whether to create a warning message when a contig is missing.
+#     Boolean write_original_position                   -  Whether to write the original position as an annotation in the resulting lifted over VCF.
 #
-#     File gatk4_jar_override                     -  Override Jar file containing GATK 4.  Use this when overriding the docker JAR or when using a backend without docker.
-#     Int  mem                                    -  Amount of memory to give to the machine running each task in this workflow.
-#     Int  preemptible_attempts                   -  Number of times to allow each task in this workflow to be preempted.
-#     Int  disk_space_gb                          -  Amount of storage disk space (in Gb) to give to each machine running each task in this workflow.
-#     Int  cpu                                    -  Number of CPU cores to give to each machine running each task in this workflow.
-#     Int  boot_disk_size_gb                      -  Amount of boot disk space (in Gb) to give to each machine running each task in this workflow.
+#     File gatk4_jar_override                           -  Override Jar file containing GATK 4.  Use this when overriding the docker JAR or when using a backend without docker.
+#     Int  mem                                          -  Amount of memory to give to the machine running each task in this workflow.
+#     Int  preemptible_attempts                         -  Number of times to allow each task in this workflow to be preempted.
+#     Int  disk_space_gb                                -  Amount of storage disk space (in Gb) to give to each machine running each task in this workflow.
+#     Int  cpu                                          -  Number of CPU cores to give to each machine running each task in this workflow.
+#     Int  boot_disk_size_gb                            -  Amount of boot disk space (in Gb) to give to each machine running each task in this workflow.
 #
 # This WDL needs to decide whether to use the ``gatk_jar`` or ``gatk_jar_override`` for the jar location.  As of cromwell-0.24,
 # this logic *must* go into each task.  Therefore, there is a lot of duplicated code.  This allows users to specify a jar file
@@ -32,6 +34,8 @@ workflow LiftoverVcf {
     File variant_vcf
     File chain_file
     File target_reference_sequence_fasta_file
+    File target_reference_sequence_fasta_file_index
+    File target_reference_sequence_fasta_file_dict
     String lifted_over_vcf_name
     String lifted_over_rejects_vcf_name
 
@@ -47,22 +51,24 @@ workflow LiftoverVcf {
 
     call LiftoverVcfTask {
         input:
-            input_vcf_file                       = variant_vcf,
-            chain_file                           = chain_file,
-            target_reference_sequence_fasta_file = target_reference_sequence_fasta_file,
-            lifted_over_vcf_name                 = lifted_over_vcf_name,
-            lifted_over_rejects_vcf_name         = lifted_over_rejects_vcf_name,
+            input_vcf_file                              = variant_vcf,
+            chain_file                                  = chain_file,
+            target_reference_sequence_fasta_file        = target_reference_sequence_fasta_file,
+            target_reference_sequence_fasta_file_index  = target_reference_sequence_fasta_file_index,
+            target_reference_sequence_fasta_file_dict   = target_reference_sequence_fasta_file_dict,
+            lifted_over_vcf_name                        = lifted_over_vcf_name,
+            lifted_over_rejects_vcf_name                = lifted_over_rejects_vcf_name,
 
-            warn_on_missing_contig               = warn_on_missing_contig,
-            write_original_position              = write_original_position,
+            warn_on_missing_contig                      = warn_on_missing_contig,
+            write_original_position                     = write_original_position,
 
-            gatk_docker                          = gatk_docker,
-            gatk_override                        = gatk4_jar_override,
-            mem                                  = mem,
-            preemptible_attempts                 = preemptible_attempts,
-            disk_space_gb                        = disk_space_gb,
-            cpu                                  = cpu,
-            boot_disk_size_gb                    = boot_disk_size_gb
+            gatk_docker                                 = gatk_docker,
+            gatk_override                               = gatk4_jar_override,
+            mem                                         = mem,
+            preemptible_attempts                        = preemptible_attempts,
+            disk_space_gb                               = disk_space_gb,
+            cpu                                         = cpu,
+            boot_disk_size_gb                           = boot_disk_size_gb
     }
 
     output {
@@ -78,6 +84,8 @@ task LiftoverVcfTask {
      File input_vcf_file
      File chain_file
      File target_reference_sequence_fasta_file
+     File target_reference_sequence_fasta_file_index
+     File target_reference_sequence_fasta_file_dict
 
      String lifted_over_vcf_name
      String lifted_over_rejects_vcf_name

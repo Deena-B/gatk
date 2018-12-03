@@ -4,6 +4,18 @@
   "LiftoverVcf.variant_vcf": "gs://gnomad-public/release/2.1/vcf/genomes/gnomad.genomes.r2.1.sites.vcf.bgz",
   "LiftoverVcf.chain_file": "gs://broad-dsde-methods-jonn/b37ToHg38.over.chain",
   "LiftoverVcf.target_reference_sequence_fasta_file": "gs://broad-references/hg38/v0/Homo_sapiens_assembly38.fasta",
+  "LiftoverVcf.target_reference_sequence_fasta_file_index": "gs://broad-references/hg38/v0/Homo_sapiens_assembly38.fasta.fai",
+  "LiftoverVcf.target_reference_sequence_fasta_file_dict": "gs://broad-references/hg38/v0/Homo_sapiens_assembly38.dict",
+
+  "LiftoverVcf.lifted_over_vcf_name": "gnomad.genomes.r2.1.sites.liftoverToHg38.vcf.gz",
+  "LiftoverVcf.lifted_over_rejects_vcf_name": "gnomad.genomes.r2.1.sites.liftoverToHg38.REJECTS.vcf.gz",
+
+  "LiftoverVcf.write_original_position": "true",
+
+  "LiftoverVcf.lifted_over_vcf_name": "gnomad.genomes.r2.1.sites.liftoverToHg38.vcf.gz",
+  "LiftoverVcf.lifted_over_rejects_vcf_name": "gnomad.genomes.r2.1.sites.liftoverToHg38.REJECTS.vcf.gz",
+
+  "LiftoverVcf.write_original_position": "true",
 
   "LiftoverVcf.lifted_over_vcf_name": "gnomad.genomes.r2.1.sites.liftoverToHg38.vcf.gz",
   "LiftoverVcf.lifted_over_rejects_vcf_name": "gnomad.genomes.r2.1.sites.liftoverToHg38.REJECTS.vcf.gz",
